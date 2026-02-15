@@ -984,12 +984,11 @@ do
 				Window.Dragging[2] = UDim2.new(0, Location.X - AccentOutline.AbsolutePosition.X, 0, Location.Y - AccentOutline.AbsolutePosition.Y)
 			end)
 			Library:Connection(game:GetService("UserInputService").InputEnded, function(Input)
-				if Input.UserInputType == Enum.UserInputType.Touch and Window.Dragging[1] then
-					local Location = game:GetService("UserInputService"):GetMouseLocation()
-					Window.Dragging[1] = false
-					Window.Dragging[2] = UDim2.new(0, 0, 0, 0)
-				end
-			end)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 and Window.Dragging[1] then
+        Window.Dragging[1] = false
+        Window.Dragging[2] = UDim2.new(0, 0, 0, 0)
+    end
+end)
 			Library:Connection(game:GetService("UserInputService").InputChanged, function(Input)
     if Window.Dragging[1] then
         local Location = game:GetService("UserInputService"):GetMouseLocation()
@@ -4259,12 +4258,11 @@ end)
 				Indicator.Dragging[2] = UDim2.new(0, Location.X - Outline.AbsolutePosition.X, 0, Location.Y - Outline.AbsolutePosition.Y)
 			end)
 			Library:Connection(game:GetService("UserInputService").InputEnded, function(Input)
-				if Input.UserInputType == Enum.UserInputType.Touch and Indicator.Dragging[1] then
-					local Location = game:GetService("UserInputService"):GetMouseLocation()
-					Indicator.Dragging[1] = false
-					Indicator.Dragging[2] = UDim2.new(0, 0, 0, 0)
-				end
-			end)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 and Indicator.Dragging[1] then
+        Indicator.Dragging[1] = false
+        Indicator.Dragging[2] = UDim2.new(0, 0, 0, 0)
+    end
+end)
 			Library:Connection(game:GetService("UserInputService").InputChanged, function(Input)
     if Indicator.Dragging[1] then
         local Location = game:GetService("UserInputService"):GetMouseLocation()
