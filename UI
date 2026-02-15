@@ -979,10 +979,10 @@ do
 
 			-- // Dragging
 			Library:Connection(AccentOutline.MouseButton1Down, function()
-				local Location = game:GetService("UserInputService"):GetMouseLocation()
-				Window.Dragging[1] = true
-				Window.Dragging[2] = UDim2.new(0, Location.X - AccentOutline.AbsolutePosition.X, 0, Location.Y - AccentOutline.AbsolutePosition.Y)
-			end)
+    local Location = game:GetService("UserInputService"):GetMouseLocation()
+    Window.Dragging[1] = true
+    Window.Dragging[2] = UDim2.new(0, Location.X - AccentOutline.AbsolutePosition.X, 0, (Location.Y - 36) - AccentOutline.AbsolutePosition.Y)
+end)
 			Library:Connection(game:GetService("UserInputService").InputEnded, function(Input)
     if Input.UserInputType == Enum.UserInputType.MouseButton1 and Window.Dragging[1] then
         Window.Dragging[1] = false
@@ -4253,10 +4253,10 @@ end)
 			
 			-- // Dragging
 			Library:Connection(Outline.MouseButton1Down, function()
-				local Location = game:GetService("UserInputService"):GetMouseLocation()
-				Indicator.Dragging[1] = true
-				Indicator.Dragging[2] = UDim2.new(0, Location.X - Outline.AbsolutePosition.X, 0, Location.Y - Outline.AbsolutePosition.Y)
-			end)
+    local Location = game:GetService("UserInputService"):GetMouseLocation()
+    Indicator.Dragging[1] = true
+    Indicator.Dragging[2] = UDim2.new(0, Location.X - Outline.AbsolutePosition.X, 0, (Location.Y - 36) - Outline.AbsolutePosition.Y)
+end)
 			Library:Connection(game:GetService("UserInputService").InputEnded, function(Input)
     if Input.UserInputType == Enum.UserInputType.MouseButton1 and Indicator.Dragging[1] then
         Indicator.Dragging[1] = false
