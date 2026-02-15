@@ -3369,7 +3369,7 @@ end)
 table.insert(Library.Keybinds, {
     name = Keybind.Name,
     flag = Keybind.Flag,
-toggle = true,
+toggle = Keybind.Toggle,
 })
 			return Keybind
 		end
