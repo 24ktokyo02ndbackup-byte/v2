@@ -80,6 +80,7 @@ do
 		Priorities = {};
 		KeyList = nil;
 		Notifs = {};
+        Keybinds = {};
 	}
 
 	-- // Ignores
@@ -1956,6 +1957,10 @@ end)
 				end
 
 				-- // Returning
+                  table.insert(Library.Keybinds, {
+                  name = Keybind.Name,
+                  flag = Keybind.Flag
+                 })
 				return Keybind
 			end
 
@@ -3359,6 +3364,10 @@ end)
 			end
 
 			-- // Returning
+table.insert(Library.Keybinds, {
+    name = Keybind.Name,
+    flag = Keybind.Flag
+})
 			return Keybind
 		end
 		--
