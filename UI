@@ -1959,7 +1959,8 @@ end)
 				-- // Returning
                   table.insert(Library.Keybinds, {
                   name = Keybind.Name,
-                  flag = Keybind.Flag
+                  flag = Keybind.Flag,
+                  toggle = true,
                  })
 				return Keybind
 			end
@@ -3018,38 +3019,39 @@ end)
 		end
 		--
 		function Sections:Keybind(Properties)
-			local Properties = Properties or {}
-			local Keybind = {
-				Section = self,
-				Name = Properties.name or Properties.Name or "Keybind",
-				State = (
-					Properties.state
-						or Properties.State
-						or Properties.def
-						or Properties.Def
-						or Properties.default
-						or Properties.Default
-						or nil
-				),
-				Mode = (Properties.mode or Properties.Mode or "Toggle"),
-				UseKey = (Properties.UseKey or false),
-				Ignore = (Properties.ignore or Properties.Ignore or false),
-				Callback = (
-					Properties.callback
-						or Properties.Callback
-						or Properties.callBack
-						or Properties.CallBack
-						or function() end
-				),
-				Flag = (
-					Properties.flag
-						or Properties.Flag
-						or Properties.pointer
-						or Properties.Pointer
-						or Library.NextFlag()
-				),
-				Binding = nil,
-			}
+    local Properties = Properties or {}
+    local Keybind = {
+        Section = self,
+        Name = Properties.name or Properties.Name or "Keybind",
+        State = (
+            Properties.state
+                or Properties.State
+                or Properties.def
+                or Properties.Def
+                or Properties.default
+                or Properties.Default
+                or nil
+        ),
+        Mode = (Properties.mode or Properties.Mode or "Toggle"),
+        UseKey = (Properties.UseKey or false),
+        Ignore = (Properties.ignore or Properties.Ignore or false),
+        Toggle = (Properties.Toggle or Properties.toggle or false), -- ADD THIS LINE
+        Callback = (
+            Properties.callback
+                or Properties.Callback
+                or Properties.callBack
+                or Properties.CallBack
+                or function() end
+        ),
+        Flag = (
+            Properties.flag
+                or Properties.Flag
+                or Properties.pointer
+                or Properties.Pointer
+                or Library.NextFlag()
+        ),
+        Binding = nil,
+    }
 			local Key
 			local State = false
 			--
@@ -3366,7 +3368,8 @@ end)
 			-- // Returning
 table.insert(Library.Keybinds, {
     name = Keybind.Name,
-    flag = Keybind.Flag
+    flag = Keybind.Flag,
+toggle = true,
 })
 			return Keybind
 		end
