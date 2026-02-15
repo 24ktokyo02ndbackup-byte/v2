@@ -4256,22 +4256,27 @@ end)
 			Library:Connection(Outline.MouseButton1Down, function()
     local Location = game:GetService("UserInputService"):GetMouseLocation()
     Indicator.Dragging[1] = true
-    Indicator.Dragging[2] = UDim2.new(0, Location.X - Outline.AbsolutePosition.X, 0, (Location.Y - 36) - Outline.AbsolutePosition.Y)
+    -- Calculate offset from center since AnchorPoint is (0.5, 0.5)
+    local centerX = Outline.AbsolutePosition.X + Outline.AbsoluteSize.X / 2
+    local centerY = Outline.AbsolutePosition.Y + Outline.AbsoluteSize.Y / 2
+    Indicator.Dragging[2] = UDim2.new(0, Location.X - centerX, 0, (Location.Y - 36) - centerY)
 end)
-			Library:Connection(game:GetService("UserInputService").InputEnded, function(Input)
+
+Library:Connection(game:GetService("UserInputService").InputEnded, function(Input)
     if Input.UserInputType == Enum.UserInputType.MouseButton1 and Indicator.Dragging[1] then
         Indicator.Dragging[1] = false
         Indicator.Dragging[2] = UDim2.new(0, 0, 0, 0)
     end
 end)
-			Library:Connection(game:GetService("UserInputService").InputChanged, function(Input)
+
+Library:Connection(game:GetService("UserInputService").InputChanged, function(Input)
     if Indicator.Dragging[1] then
         local Location = game:GetService("UserInputService"):GetMouseLocation()
         Outline.Position = UDim2.new(
             0,
             Location.X - Indicator.Dragging[2].X.Offset,
             0,
-            Location.Y - Indicator.Dragging[2].Y.Offset - 36  -- Subtract GUI inset
+            Location.Y - Indicator.Dragging[2].Y.Offset - 36
         )
     end
 end)
