@@ -1506,13 +1506,13 @@ end)
 
 			local UIListLayout = Instance.new("UIListLayout")
 			UIListLayout.Name = "UIListLayout"
-			UIListLayout.Padding = UDim.new(0, 10)
+			UIListLayout.Padding = UDim.new(0, 5)
 			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 			UIListLayout.Parent = SectionContent
 
 			local UIPadding = Instance.new("UIPadding")
 			UIPadding.Name = "UIPadding"
-			UIPadding.PaddingBottom = UDim.new(0, 2)
+			UIPadding.PaddingBottom = UDim.new(0, 6)
 			UIPadding.Parent = SectionContent
 
 			SectionContent.Parent = SectionInline
