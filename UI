@@ -31,9 +31,9 @@ local Library = {
 
     FontColor = Color3.fromRGB(255, 255, 255);
     MainColor = Color3.fromRGB(28, 28, 28);
-    BackgroundColor = Color3.fromRGB(18, 17, 17);
-    AccentColor = Color3.fromRGB(234, 0, 255);
-    OutlineColor = Color3.fromRGB(12, 0, 0);
+    BackgroundColor = Color3.fromRGB(20, 20, 20);
+    AccentColor = Color3.fromRGB(0, 85, 255);
+    OutlineColor = Color3.fromRGB(50, 50, 50);
     RiskColor = Color3.fromRGB(255, 50, 50),
 
     Black = Color3.new(0, 0, 0);
@@ -3035,24 +3035,20 @@ function Library:CreateWindow(...)
         Parent = Inner;
     });
 
-    -- Keep label white regardless of theme changes
-    Library.RegistryMap[GameNameLabel].Properties.TextColor3 = function() return Color3.new(1, 1, 1) end;
+    local GameName = '';
 
-    local function UpdateGameNameLabel(name)
+    local function UpdateGameNameLabel()
+        if GameName == '' then return end;
         local c = Library.AccentColor;
         local rgb = math.floor(c.R * 255) .. ',' .. math.floor(c.G * 255) .. ',' .. math.floor(c.B * 255);
-        GameNameLabel.Text = '<font color="rgb(' .. rgb .. ')">[</font> ' .. name .. ' <font color="rgb(' .. rgb .. ')">]</font>';
+        GameNameLabel.Text = '<font color="rgb(' .. rgb .. ')">[</font> ' .. GameName .. ' <font color="rgb(' .. rgb .. ')">]</font>';
     end;
 
-    -- Hook into registry so brackets recolor whenever accent changes
-    Library:AddToRegistry(GameNameLabel, {
-        TextColor3 = function()
-            if GameNameLabel._GameName then
-                UpdateGameNameLabel(GameNameLabel._GameName);
-            end;
-            return Color3.new(1, 1, 1);
-        end;
-    });
+    -- Keep label white and rebuild bracket colors whenever accent changes
+    Library.RegistryMap[GameNameLabel].Properties.TextColor3 = function()
+        UpdateGameNameLabel();
+        return Color3.new(1, 1, 1);
+    end;
 
     -- Fetch real game name from Roblox API
     task.spawn(function()
@@ -3066,9 +3062,8 @@ function Library:CreateWindow(...)
             return data.data[1].name;
         end);
 
-        local gameName = (ok and result) and result or game.Name;
-        GameNameLabel._GameName = gameName;
-        UpdateGameNameLabel(gameName);
+        GameName = (ok and result) and result or game.Name;
+        UpdateGameNameLabel();
     end);
 
     local MainSectionOuter = Library:Create('Frame', {
