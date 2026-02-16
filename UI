@@ -1126,7 +1126,7 @@ end)
 			NewPage.BackgroundTransparency = 1
 			NewPage.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			NewPage.BorderSizePixel = 0
-			NewPage.Position = UDim2.new(0, 6, 0, 6)
+			NewPage.Position = UDim2.new(0, 6, 0, 3)
 			NewPage.Size = UDim2.new(1, -12, 1, -12)
 			NewPage.Visible = false
 			NewPage.Parent = Page.Window.Elements.Holder
@@ -1506,7 +1506,7 @@ end)
 
 			local UIListLayout = Instance.new("UIListLayout")
 			UIListLayout.Name = "UIListLayout"
-			UIListLayout.Padding = UDim.new(0, 5)
+			UIListLayout.Padding = UDim.new(0, 8.5)
 			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 			UIListLayout.Parent = SectionContent
 
