@@ -1512,7 +1512,7 @@ end)
 
 			local UIPadding = Instance.new("UIPadding")
 			UIPadding.Name = "UIPadding"
-			UIPadding.PaddingBottom = UDim.new(0, 6)
+			UIPadding.PaddingBottom = UDim.new(0, 2)
 			UIPadding.Parent = SectionContent
 
 			SectionContent.Parent = SectionInline
