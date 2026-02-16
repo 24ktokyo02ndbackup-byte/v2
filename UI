@@ -2066,7 +2066,7 @@ NewPage.Size = UDim2.new(1, -12, 1, -52)
 				or Properties.Measurement
 				or ""
 		),
-		Decimals = (Properties.decimals or Properties.Decimals or 1),
+		Decimals = (Properties.decimals or Properties.Decimals or Properties.increment or Properties.Increment or 1),
 		Callback = (
 			Properties.callback
 				or Properties.Callback
