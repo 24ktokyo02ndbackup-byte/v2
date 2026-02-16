@@ -2035,198 +2035,200 @@ end)
 		end
 		--
 		function Sections:Slider(Properties)
-			if not Properties then
-				Properties = {}
-			end
-			--
-			local Slider = {
-				Window = self.Window,
-				Page = self.Page,
-				Section = self,
-				Name = Properties.Name or nil,
-				Min = (Properties.min or Properties.Min or Properties.minimum or Properties.Minimum or 0),
-				State = (
-					Properties.state
-						or Properties.State
-						or Properties.def
-						or Properties.Def
-						or Properties.default
-						or Properties.Default
-						or 10
-				),
-				Max = (Properties.max or Properties.Max or Properties.maximum or Properties.Maximum or 100),
-				Sub = (
-					Properties.suffix
-						or Properties.Suffix
-						or Properties.ending
-						or Properties.Ending
-						or Properties.prefix
-						or Properties.Prefix
-						or Properties.measurement
-						or Properties.Measurement
-						or ""
-				),
-				Decimals = (Properties.decimals or Properties.Decimals or 1),
-				Callback = (
-					Properties.callback
-						or Properties.Callback
-						or Properties.callBack
-						or Properties.CallBack
-						or function() end
-				),
-				Flag = (
-					Properties.flag
-						or Properties.Flag
-						or Properties.pointer
-						or Properties.Pointer
-						or Library.NextFlag()
-				),
-				Disabled = (Properties.Disabled or Properties.disable or nil),
-			}
-			local TextValue = ("[value]" .. Slider.Sub)
-			--
-			local NewSlider = Instance.new("Frame")
-			NewSlider.Name = "NewSlider"
-			NewSlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			NewSlider.BackgroundTransparency = 1
-			NewSlider.BorderColor3 = Color3.fromRGB(0, 0, 0)
-			NewSlider.BorderSizePixel = 0
-			NewSlider.Size = UDim2.new(1, 0, 0, Slider.Name ~= nil and 26 or 12)
-			NewSlider.Parent = Slider.Section.Elements.SectionContent
+	if not Properties then
+		Properties = {}
+	end
+	--
+	local Slider = {
+		Window = self.Window,
+		Page = self.Page,
+		Section = self,
+		Name = Properties.Name or nil,
+		Min = (Properties.min or Properties.Min or Properties.minimum or Properties.Minimum or 0),
+		State = (
+			Properties.state
+				or Properties.State
+				or Properties.def
+				or Properties.Def
+				or Properties.default
+				or Properties.Default
+				or 10
+		),
+		Max = (Properties.max or Properties.Max or Properties.maximum or Properties.Maximum or 100),
+		Sub = (
+			Properties.suffix
+				or Properties.Suffix
+				or Properties.ending
+				or Properties.Ending
+				or Properties.prefix
+				or Properties.Prefix
+				or Properties.measurement
+				or Properties.Measurement
+				or ""
+		),
+		Decimals = (Properties.decimals or Properties.Decimals or 1),
+		Callback = (
+			Properties.callback
+				or Properties.Callback
+				or Properties.callBack
+				or Properties.CallBack
+				or function() end
+		),
+		Flag = (
+			Properties.flag
+				or Properties.Flag
+				or Properties.pointer
+				or Properties.Pointer
+				or Library.NextFlag()
+		),
+		Disabled = (Properties.Disabled or Properties.disable or nil),
+	}
+	local TextValue = ("[value]" .. Slider.Sub)
+	--
+	local NewSlider = Instance.new("Frame")
+	NewSlider.Name = "NewSlider"
+	NewSlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	NewSlider.BackgroundTransparency = 1
+	NewSlider.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	NewSlider.BorderSizePixel = 0
+	NewSlider.Size = UDim2.new(1, 0, 0, Slider.Name ~= nil and 26 or 12)
+	NewSlider.Parent = Slider.Section.Elements.SectionContent
 
-			local Outline = Instance.new("Frame")
-			Outline.Name = "Outline"
-			Outline.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-			Outline.BorderColor3 = Color3.fromRGB(0, 0, 0)
-			Outline.Position = UDim2.new(0, 0, 1, -12)
-			Outline.Size = UDim2.new(1, 0, 0, 12)
+	local Outline = Instance.new("Frame")
+	Outline.Name = "Outline"
+	Outline.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+	Outline.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Outline.Position = UDim2.new(0, 0, 1, -12)
+	Outline.Size = UDim2.new(1, 0, 0, 12)
 
-			local Inline = Instance.new("TextButton")
-			Inline.Name = "Inline"
-			Inline.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-			Inline.BorderColor3 = Color3.fromRGB(0, 0, 0)
-			Inline.BorderSizePixel = 0
-			Inline.Position = UDim2.new(0, 1, 0, 1)
-			Inline.Size = UDim2.new(1, -2, 1, -2)
-			Inline.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json")
-			Inline.Text = ""
-			Inline.TextColor3 = Color3.fromRGB(0, 0, 0)
-			Inline.TextSize = 14
-			Inline.AutoButtonColor = false
+	local Inline = Instance.new("TextButton")
+	Inline.Name = "Inline"
+	Inline.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+	Inline.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Inline.BorderSizePixel = 0
+	Inline.Position = UDim2.new(0, 1, 0, 1)
+	Inline.Size = UDim2.new(1, -2, 1, -2)
+	Inline.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json")
+	Inline.Text = ""
+	Inline.TextColor3 = Color3.fromRGB(0, 0, 0)
+	Inline.TextSize = 14
+	Inline.AutoButtonColor = false
 
-			local Accent = Library:NewInstance("TextButton", true)
-			Accent.Name = "Accent"
-			Accent.BackgroundColor3 = Library.Accent
-			Accent.BorderColor3 = Color3.fromRGB(0, 0, 0)
-			Accent.BorderSizePixel = 0
-			Accent.Size = UDim2.new(0, 0, 1, 0)
-			Accent.Parent = Inline
-			Accent.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json")
-			Accent.Text = ""
-			Accent.TextColor3 = Color3.fromRGB(0, 0, 0)
-			Accent.TextSize = 14
-			Accent.AutoButtonColor = false
+	local Accent = Library:NewInstance("TextButton", true)
+	Accent.Name = "Accent"
+	Accent.BackgroundColor3 = Library.Accent
+	Accent.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Accent.BorderSizePixel = 0
+	Accent.Size = UDim2.new(0, 0, 1, 0)
+	Accent.Parent = Inline
+	Accent.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json")
+	Accent.Text = ""
+	Accent.TextColor3 = Color3.fromRGB(0, 0, 0)
+	Accent.TextSize = 14
+	Accent.AutoButtonColor = false
 
-			local Value = Instance.new("TextLabel")
-			Value.Name = "Value"
-			Value.FontFace = Font.new(Font:GetRegistry("UI_FONT"))
-			Value.Text = "0"
-			Value.TextColor3 = Color3.fromRGB(255, 255, 255)
-			Value.TextSize = 12
-			Value.TextStrokeTransparency = 0
-			Value.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			Value.BackgroundTransparency = 1
-			Value.BorderColor3 = Color3.fromRGB(0, 0, 0)
-			Value.BorderSizePixel = 0
-			Value.Size = UDim2.new(1, 0, 1, 0)
-			Value.Parent = Inline
+	local Value = Instance.new("TextLabel")
+	Value.Name = "Value"
+	Value.FontFace = Font.new(Font:GetRegistry("UI_FONT"))
+	Value.Text = "0"
+	Value.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Value.TextSize = 12
+	Value.TextStrokeTransparency = 0
+	Value.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Value.BackgroundTransparency = 1
+	Value.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Value.BorderSizePixel = 0
+	Value.Size = UDim2.new(1, 0, 1, 0)
+	Value.Parent = Inline
 
-			Inline.Parent = Outline
+	Inline.Parent = Outline
 
-			Outline.Parent = NewSlider
+	Outline.Parent = NewSlider
 
-			local Title = Instance.new("TextLabel")
-			Title.Name = "Title"
-			Title.FontFace = Font.new(Font:GetRegistry("UI_FONT"))
-			Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-			Title.TextSize = 12
-			Title.TextStrokeTransparency = 0
-			Title.TextXAlignment = Enum.TextXAlignment.Left
-			Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			Title.BackgroundTransparency = 1
-			Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
-			Title.BorderSizePixel = 0
-			Title.Size = UDim2.new(1, 0, 0, 10)
-			Title.Parent = NewSlider
-			Title.Text = Slider.Name ~= nil and Slider.Name or ""
-			Title.Visible = Slider.Name ~= nil and true or false
+	local Title = Instance.new("TextLabel")
+	Title.Name = "Title"
+	Title.FontFace = Font.new(Font:GetRegistry("UI_FONT"))
+	Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Title.TextSize = 12
+	Title.TextStrokeTransparency = 0
+	Title.TextXAlignment = Enum.TextXAlignment.Left
+	Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Title.BackgroundTransparency = 1
+	Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Title.BorderSizePixel = 0
+	Title.Size = UDim2.new(1, 0, 0, 10)
+	Title.Parent = NewSlider
+	Title.Text = Slider.Name ~= nil and Slider.Name or ""
+	Title.Visible = Slider.Name ~= nil and true or false
 
-			-- // Functions
-			local Sliding = false
-			local Val = Slider.State
-			local function Set(value)
-				value = math.clamp(Library:Round(value, Slider.Decimals), Slider.Min, Slider.Max)
+	-- // Functions
+	local Sliding = false
+	local Val = Slider.State
+	local function Set(value)
+		value = math.clamp(Library:Round(value, Slider.Decimals), Slider.Min, Slider.Max)
 
-				local sizeX = ((value - Slider.Min) / (Slider.Max - Slider.Min))
-				Accent.Size = UDim2.new(sizeX, 0, 1, 0)
-				if Slider.Disabled and value == Slider.Min then
-					Value.Text = Slider.Disabled
-				else
-					Value.Text = TextValue:gsub("%[value%]", string.format("%.14g", value))
-				end
-				Val = value
-
-				Library.Flags[Slider.Flag] = value
-				Slider.Callback(value)
-			end				
-			--
-			local function ISlide(input)
-				local sizeX = (input.Position.X - Inline.AbsolutePosition.X) / Inline.AbsoluteSize.X
-				local value = ((Slider.Max - Slider.Min) * sizeX) + Slider.Min
-				Set(value)
-			end
-			--
-			Library:Connection(Inline.InputBegan, function(input)
-				if input.UserInputType == Enum.UserInputType.Touch then
-					Sliding = true
-					ISlide(input)
-				end
-			end)
-			Library:Connection(Inline.InputEnded, function(input)
-				if input.UserInputType == Enum.UserInputType.Touch then
-					Sliding = false
-				end
-			end)
-			Library:Connection(Accent.InputBegan, function(input)
-				if input.UserInputType == Enum.UserInputType.Touch then
-					Sliding = true
-					ISlide(input)
-				end
-			end)
-			Library:Connection(Accent.InputEnded, function(input)
-				if input.UserInputType == Enum.UserInputType.Touch then
-					Sliding = false
-				end
-			end)
-			Library:Connection(game:GetService("UserInputService").InputChanged, function(input)
-				if input.UserInputType == Enum.UserInputType.Touch then
-					if Sliding then
-						ISlide(input)
-					end
-				end
-			end)
-			--
-			function Slider:Set(Value)
-				Set(Value)
-			end
-			--
-			Flags[Slider.Flag] = Set
-			Library.Flags[Slider.Flag] = Slider.State
-			Set(Slider.State)
-
-			-- // Returning
-			return Slider
+		local sizeX = ((value - Slider.Min) / (Slider.Max - Slider.Min))
+		Accent.Size = UDim2.new(sizeX, 0, 1, 0)
+		if Slider.Disabled and value == Slider.Min then
+			Value.Text = Slider.Disabled
+		else
+			Value.Text = TextValue:gsub("%[value%]", string.format("%.14g", value))
 		end
+		Val = value
+
+		Library.Flags[Slider.Flag] = value
+		Slider.Callback(value)
+	end				
+	--
+	local function ISlide(input)
+		local sizeX = (input.Position.X - Inline.AbsolutePosition.X) / Inline.AbsoluteSize.X
+		local value = ((Slider.Max - Slider.Min) * sizeX) + Slider.Min
+		Set(value)
+	end
+	--
+	-- FIXED: Support both mouse (PC) and touch (mobile)
+	Library:Connection(Inline.InputBegan, function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			Sliding = true
+			ISlide(input)
+		end
+	end)
+	Library:Connection(Inline.InputEnded, function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			Sliding = false
+		end
+	end)
+	Library:Connection(Accent.InputBegan, function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			Sliding = true
+			ISlide(input)
+		end
+	end)
+	Library:Connection(Accent.InputEnded, function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			Sliding = false
+		end
+	end)
+	Library:Connection(game:GetService("UserInputService").InputChanged, function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			if Sliding then
+				ISlide(input)
+			end
+		end
+	end)
+	--
+	function Slider:Set(Value)
+		Set(Value)
+	end
+	--
+	Flags[Slider.Flag] = Set
+	Library.Flags[Slider.Flag] = Slider.State
+	Set(Slider.State)
+
+	-- // Returning
+	return Slider
+end
+
 		--
 		function Sections:List(Properties)
 			local Properties = Properties or {};
