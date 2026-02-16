@@ -68,14 +68,19 @@ end))
 
 local function GetPlayersString()
     local PlayerList = Players:GetPlayers();
+    local DisplayList = {};
+    local PlayerMap = {}; -- display string -> real username
 
     for i = 1, #PlayerList do
-        PlayerList[i] = PlayerList[i].Name;
+        local Player = PlayerList[i];
+        local DisplayStr = Player.Name .. ': ' .. Player.DisplayName;
+        table.insert(DisplayList, DisplayStr);
+        PlayerMap[DisplayStr] = Player.Name;
     end;
 
-    table.sort(PlayerList, function(str1, str2) return str1 < str2 end);
+    table.sort(DisplayList, function(str1, str2) return str1 < str2 end);
 
-    return PlayerList;
+    return DisplayList, PlayerMap;
 end;
 
 local function GetTeamsString()
@@ -2150,7 +2155,9 @@ do
 
     function Funcs:AddDropdown(Idx, Info)
         if Info.SpecialType == 'Player' then
-            Info.Values = GetPlayersString();
+            local DisplayList, PlayerMap = GetPlayersString();
+            Info.Values = DisplayList;
+            Info.PlayerMap = PlayerMap;
             Info.AllowNull = true;
         elseif Info.SpecialType == 'Team' then
             Info.Values = GetTeamsString();
@@ -2170,6 +2177,7 @@ do
             Multi = Info.Multi;
             Type = 'Dropdown';
             SpecialType = Info.SpecialType; -- can be either 'Player' or 'Team'
+            PlayerMap = Info.PlayerMap or {};
             Callback = Info.Callback or function(Value) end;
         };
 
@@ -2360,6 +2368,26 @@ do
             end;
         end;
 
+        -- Returns the real value for callbacks (remaps display string -> username for Player dropdowns)
+        function Dropdown:GetCallbackValue()
+            if Dropdown.SpecialType ~= 'Player' then
+                return Dropdown.Value;
+            end;
+
+            if Info.Multi then
+                local T = {};
+                for DisplayStr, Bool in next, Dropdown.Value do
+                    T[Dropdown.PlayerMap[DisplayStr] or DisplayStr] = true;
+                end;
+                return T;
+            else
+                if Dropdown.Value then
+                    return Dropdown.PlayerMap[Dropdown.Value] or Dropdown.Value;
+                end;
+                return nil;
+            end;
+        end;
+
         function Dropdown:BuildDropdownList()
             local Values = Dropdown.Values;
             local Buttons = {};
@@ -2458,8 +2486,8 @@ do
                             Table:UpdateButton();
                             Dropdown:Display();
 
-                            Library:SafeCallback(Dropdown.Callback, Dropdown.Value);
-                            Library:SafeCallback(Dropdown.Changed, Dropdown.Value);
+                            Library:SafeCallback(Dropdown.Callback, Dropdown:GetCallbackValue());
+                            Library:SafeCallback(Dropdown.Changed, Dropdown:GetCallbackValue());
 
                             Library:AttemptSave();
                         end;
@@ -2524,8 +2552,8 @@ do
 
             Dropdown:BuildDropdownList();
 
-            Library:SafeCallback(Dropdown.Callback, Dropdown.Value);
-            Library:SafeCallback(Dropdown.Changed, Dropdown.Value);
+            Library:SafeCallback(Dropdown.Callback, Dropdown:GetCallbackValue());
+            Library:SafeCallback(Dropdown.Changed, Dropdown:GetCallbackValue());
         end;
 
         DropdownOuter.InputBegan:Connect(function(Input)
@@ -2995,6 +3023,19 @@ function Library:CreateWindow(...)
         ZIndex = 1;
         Parent = Inner;
     });
+
+    local GameNameLabel = Library:CreateLabel({
+        Position = UDim2.new(0, 0, 0, 0);
+        Size = UDim2.new(1, -7, 0, 25);
+        Text = game.Name;
+        TextColor3 = Color3.new(1, 1, 1);
+        TextXAlignment = Enum.TextXAlignment.Right;
+        ZIndex = 1;
+        Parent = Inner;
+    });
+
+    -- Override registry so color updates don't affect this label's white color
+    Library.RegistryMap[GameNameLabel].Properties.TextColor3 = function() return Color3.new(1, 1, 1) end;
 
     local MainSectionOuter = Library:Create('Frame', {
         BackgroundColor3 = Library.BackgroundColor;
@@ -3582,10 +3623,11 @@ function Library:CreateWindow(...)
 end;
 
 local function OnPlayerChange()
-    local PlayerList = GetPlayersString();
+    local PlayerList, PlayerMap = GetPlayersString();
 
     for _, Value in next, Options do
         if Value.Type == 'Dropdown' and Value.SpecialType == 'Player' then
+            Value.PlayerMap = PlayerMap;
             Value:SetValues(PlayerList);
         end;
     end;
