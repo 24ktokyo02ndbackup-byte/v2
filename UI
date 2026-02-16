@@ -851,7 +851,7 @@ end)
 			AccentOutline.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			AccentOutline.ClipsDescendants = false
 			AccentOutline.Position = UDim2.new(0, 200, 0, 200)
-			AccentOutline.Size = UDim2.new(0, 550, 0, 600)
+			AccentOutline.Size = UDim2.new(0, 550, 0, 800)
 			AccentOutline.ZIndex = 2
 			AccentOutline.Text = ""
 			AccentOutline.AutoButtonColor = false
@@ -1170,7 +1170,7 @@ end)
 			Weapons.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 			Weapons.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Weapons.Position = UDim2.new(0, 6, 0, 6)
-			Weapons.Size = UDim2.new(1, -12, 0, 50)
+			Weapons.Size = UDim2.new(1, -12, 0, 35)
 			Weapons.Visible = false
 			Weapons.Parent = Page.Window.Elements.Holder
 
