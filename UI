@@ -3027,15 +3027,44 @@ function Library:CreateWindow(...)
     local GameNameLabel = Library:CreateLabel({
         Position = UDim2.new(0, 0, 0, 0);
         Size = UDim2.new(1, -7, 0, 25);
-        Text = game.Name;
+        Text = '';
         TextColor3 = Color3.new(1, 1, 1);
         TextXAlignment = Enum.TextXAlignment.Right;
         ZIndex = 1;
         Parent = Inner;
     });
 
-    -- Override registry so color updates don't affect this label's white color
+    -- Keep label white regardless of theme changes
     Library.RegistryMap[GameNameLabel].Properties.TextColor3 = function() return Color3.new(1, 1, 1) end;
+
+    -- Fetch real game name from Roblox API
+    task.spawn(function()
+        local ok, result = pcall(function()
+            local req = (http_request or request or (syn and syn.request));
+            local res = req({
+                Url = 'https://games.roblox.com/v1/games?universeIds=' .. game.GameId;
+                Method = 'GET';
+            });
+            local data = game:GetService('HttpService'):JSONDecode(res.Body);
+            return data.data[1].name;
+        end);
+
+        local gameName = (ok and result) and result or game.Name;
+
+        -- Build "[ gameName ]" with accent-colored brackets
+        GameNameLabel.Text = '<font color="rgb('
+            .. math.floor(Library.AccentColor.R * 255) .. ','
+            .. math.floor(Library.AccentColor.G * 255) .. ','
+            .. math.floor(Library.AccentColor.B * 255)
+            .. ')">[</font> '
+            .. gameName
+            .. ' <font color="rgb('
+            .. math.floor(Library.AccentColor.R * 255) .. ','
+            .. math.floor(Library.AccentColor.G * 255) .. ','
+            .. math.floor(Library.AccentColor.B * 255)
+            .. ')">]</font>';
+        GameNameLabel.RichText = true;
+    end);
 
     local MainSectionOuter = Library:Create('Frame', {
         BackgroundColor3 = Library.BackgroundColor;
