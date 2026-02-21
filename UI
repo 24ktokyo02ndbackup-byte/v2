@@ -3024,11 +3024,85 @@ function Library:CreateWindow(...)
         Parent = Inner;
     });
 
+   WindowLabel.Text = ''
+    WindowLabel.TextTransparency = 1
+
+    -- Centered animated label
+    local AnimatedTitle = Instance.new('TextLabel')
+    AnimatedTitle.BackgroundTransparency = 1
+    AnimatedTitle.Size = UDim2.new(1, 0, 0, 25)
+    AnimatedTitle.Position = UDim2.new(0, 0, 0, 0)
+    AnimatedTitle.Font = Library.Font
+    AnimatedTitle.TextSize = 15
+    AnimatedTitle.TextColor3 = Library.FontColor
+    AnimatedTitle.TextXAlignment = Enum.TextXAlignment.Center
+    AnimatedTitle.TextYAlignment = Enum.TextYAlignment.Center
+    AnimatedTitle.Text = ''
+    AnimatedTitle.ZIndex = 10
+    AnimatedTitle.Parent = Inner
+
+    Library:AddToRegistry(AnimatedTitle, { TextColor3 = 'FontColor' })
+
+    -- Typewriter settings (tweak these)
+    local TitleText  = Config.Title or ''
+    local TypeSpeed  = 0.07  -- seconds per character typed
+    local HoldTime   = 2     -- seconds to hold when fully typed
+    local EraseSpeed = 0.04  -- seconds per character erased
+
+    task.spawn(function()
+        while true do
+            -- type forward
+            for i = 1, #TitleText do
+                AnimatedTitle.Text = TitleText:sub(1, i)
+                task.wait(TypeSpeed)
+            end
+            task.wait(HoldTime)
+            -- erase backward
+            for i = #TitleText, 0, -1 do
+                AnimatedTitle.Text = TitleText:sub(1, i)
+                task.wait(EraseSpeed)
+            end
+            task.wait(0.4)
+        end
+    end)
+
+    -- Left fade edge
+    local LeftFade = Instance.new('Frame')
+    LeftFade.BackgroundColor3 = Library.MainColor
+    LeftFade.BorderSizePixel = 0
+    LeftFade.Position = UDim2.new(0, 0, 0, 0)
+    LeftFade.Size = UDim2.new(0, 40, 1, 0)
+    LeftFade.ZIndex = 3
+    LeftFade.Parent = Inner
+    local lg = Instance.new('UIGradient', LeftFade)
+    lg.Transparency = NumberSequence.new({
+        NumberSequenceKeypoint.new(0, 0.85),
+        NumberSequenceKeypoint.new(1, 1),
+    })
+
+    -- Right fade edge
+    local RightFade = Instance.new('Frame')
+    RightFade.BackgroundColor3 = Library.MainColor
+    RightFade.BorderSizePixel = 0
+    RightFade.AnchorPoint = Vector2.new(1, 0)
+    RightFade.Position = UDim2.new(1, 0, 0, 0)
+    RightFade.Size = UDim2.new(0, 40, 1, 0)
+    RightFade.ZIndex = 3
+    RightFade.Parent = Inner
+    local rg = Instance.new('UIGradient', RightFade)
+    rg.Transparency = NumberSequence.new({
+        NumberSequenceKeypoint.new(0, 1),
+        NumberSequenceKeypoint.new(1, 0.85),
+    })
+
+    Library:AddToRegistry(LeftFade,  { BackgroundColor3 = 'MainColor' })
+    Library:AddToRegistry(RightFade, { BackgroundColor3 = 'MainColor' })
+
     local GameNameLabel = Library:CreateLabel({
         Position = UDim2.new(0, 0, 0, 0);
         Size = UDim2.new(1, -7, 0, 25);
         Text = '';
-        TextColor3 = Color3.new(1, 1, 1);
+        TextColor3 = Color3.new(255, 50, 50);
         TextXAlignment = Enum.TextXAlignment.Right;
         RichText = true;
         ZIndex = 1;
