@@ -31,7 +31,7 @@ local Library = {
 
     FontColor = Color3.fromRGB(255, 255, 255);
     MainColor = Color3.fromRGB(0, 0, 0);
-    BackgroundColor = Color3.fromRGB(0, 0, 0);
+    BackgroundColor = Color3.fromRGB(20, 20, 20);
     AccentColor = Color3.fromRGB(255, 0, 255);
     OutlineColor = Color3.fromRGB(50, 50, 50);
     RiskColor = Color3.fromRGB(255, 50, 50),
@@ -3066,45 +3066,7 @@ function Library:CreateWindow(...)
         end
     end)
 
-   local TitleFadeHolder = Instance.new('Frame')
-    TitleFadeHolder.BackgroundTransparency = 1
-    TitleFadeHolder.BorderSizePixel = 0
-    TitleFadeHolder.Position = UDim2.new(0, 1, 0, 1)  
-    TitleFadeHolder.Size = UDim2.new(1, -2, 0, 25)
-    TitleFadeHolder.ClipsDescendants = false
-    TitleFadeHolder.ZIndex = 4
-    TitleFadeHolder.Parent = Outer 
-
-    -- Left fade
-    local LeftFade = Instance.new('Frame')
-    LeftFade.BackgroundColor3 = Library.AccentColor
-    LeftFade.BorderSizePixel = 0
-    LeftFade.Position = UDim2.new(0, 0, 0, 0)
-    LeftFade.Size = UDim2.new(0, 60, 1, 0)
-    LeftFade.ZIndex = 4
-    LeftFade.Parent = TitleFadeHolder
-
-    local lg = Instance.new('UIGradient', LeftFade)
-    lg.Transparency = NumberSequence.new({
-        NumberSequenceKeypoint.new(0, 0.6),
-        NumberSequenceKeypoint.new(1, 1),
-    })
-
-    -- Right fade
-    local RightFade = Instance.new('Frame')
-    RightFade.BackgroundColor3 = Library.AccentColor
-    RightFade.BorderSizePixel = 0
-    RightFade.AnchorPoint = Vector2.new(1, 0)
-    RightFade.Position = UDim2.new(1, 0, 0, 0)
-    RightFade.Size = UDim2.new(0, 60, 1, 0)
-    RightFade.ZIndex = 4
-    RightFade.Parent = TitleFadeHolder
-
-    local rg = Instance.new('UIGradient', RightFade)
-    rg.Transparency = NumberSequence.new({
-        NumberSequenceKeypoint.new(0, 1),
-        NumberSequenceKeypoint.new(1, 0.6),
-    })
+   
 
     Library:AddToRegistry(LeftFade,  { BackgroundColor3 = 'AccentColor' })
     Library:AddToRegistry(RightFade, { BackgroundColor3 = 'AccentColor' })
