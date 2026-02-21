@@ -4870,6 +4870,7 @@ Library:AddToRegistry(Button, {
                 });
 
 local TabboxIndicator = Library:Create('Frame', {
+    Name = 'TabboxIndicator';
     BackgroundColor3 = Library.AccentColor;
     BorderSizePixel = 0;
     Position = UDim2.new(0, 0, 0, 0);
