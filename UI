@@ -3066,37 +3066,48 @@ function Library:CreateWindow(...)
         end
     end)
 
-    -- Left fade edge
+   local TitleFadeHolder = Instance.new('Frame')
+    TitleFadeHolder.BackgroundTransparency = 1
+    TitleFadeHolder.BorderSizePixel = 0
+    TitleFadeHolder.Position = UDim2.new(0, 0, 0, 0)
+    TitleFadeHolder.Size = UDim2.new(1, 0, 0, 25)
+    TitleFadeHolder.ClipsDescendants = false
+    TitleFadeHolder.ZIndex = 4
+    TitleFadeHolder.Parent = Inner
+
+    -- Left fade
     local LeftFade = Instance.new('Frame')
-    LeftFade.BackgroundColor3 = Library.MainColor
+    LeftFade.BackgroundColor3 = Library.AccentColor
     LeftFade.BorderSizePixel = 0
     LeftFade.Position = UDim2.new(0, 0, 0, 0)
-    LeftFade.Size = UDim2.new(0, 40, 1, 0)
-    LeftFade.ZIndex = 3
-    LeftFade.Parent = Inner
+    LeftFade.Size = UDim2.new(0, 60, 1, 0)
+    LeftFade.ZIndex = 4
+    LeftFade.Parent = TitleFadeHolder
+
     local lg = Instance.new('UIGradient', LeftFade)
     lg.Transparency = NumberSequence.new({
-        NumberSequenceKeypoint.new(0, 0.85),
+        NumberSequenceKeypoint.new(0, 0.6),
         NumberSequenceKeypoint.new(1, 1),
     })
 
-    -- Right fade edge
+    -- Right fade
     local RightFade = Instance.new('Frame')
-    RightFade.BackgroundColor3 = Library.MainColor
+    RightFade.BackgroundColor3 = Library.AccentColor
     RightFade.BorderSizePixel = 0
     RightFade.AnchorPoint = Vector2.new(1, 0)
     RightFade.Position = UDim2.new(1, 0, 0, 0)
-    RightFade.Size = UDim2.new(0, 40, 1, 0)
-    RightFade.ZIndex = 3
-    RightFade.Parent = Inner
+    RightFade.Size = UDim2.new(0, 60, 1, 0)
+    RightFade.ZIndex = 4
+    RightFade.Parent = TitleFadeHolder
+
     local rg = Instance.new('UIGradient', RightFade)
     rg.Transparency = NumberSequence.new({
         NumberSequenceKeypoint.new(0, 1),
-        NumberSequenceKeypoint.new(1, 0.85),
+        NumberSequenceKeypoint.new(1, 0.6),
     })
 
-    Library:AddToRegistry(LeftFade,  { BackgroundColor3 = 'MainColor' })
-    Library:AddToRegistry(RightFade, { BackgroundColor3 = 'MainColor' })
+    Library:AddToRegistry(LeftFade,  { BackgroundColor3 = 'AccentColor' })
+    Library:AddToRegistry(RightFade, { BackgroundColor3 = 'AccentColor' })
 
     local GameNameLabel = Library:CreateLabel({
         Position = UDim2.new(0, 0, 0, 0);
@@ -3112,11 +3123,11 @@ function Library:CreateWindow(...)
     local GameName = '';
 
     local function UpdateGameNameLabel()
-        if GameName == '' then return end;
-        local c = Library.AccentColor;
-        local rgb = math.floor(c.R * 255) .. ',' .. math.floor(c.G * 255) .. ',' .. math.floor(c.B * 255);
-        GameNameLabel.Text = '<font color="rgb(' .. rgb .. ')">[</font> ' .. GameName .. ' <font color="rgb(' .. rgb .. ')">]</font>';
-    end;
+    if GameName == '' then return end
+    local c = Library.AccentColor
+    local rgb = math.floor(c.R * 255) .. ',' .. math.floor(c.G * 255) .. ',' .. math.floor(c.B * 255)
+    GameNameLabel.Text = '<font color="rgb(' .. rgb .. ')">[</font> <font color="rgb(255,50,50)">' .. GameName .. '</font> <font color="rgb(' .. rgb .. ')">]</font>'
+end
 
     -- Keep label white and rebuild bracket colors whenever accent changes
     Library.RegistryMap[GameNameLabel].Properties.TextColor3 = function()
@@ -3232,14 +3243,18 @@ function Library:CreateWindow(...)
         });
 
         local Blocker = Library:Create('Frame', {
-            BackgroundColor3 = Library.MainColor;
-            BorderSizePixel = 0;
-            Position = UDim2.new(0, 0, 1, 0);
-            Size = UDim2.new(1, 0, 0, 1);
-            BackgroundTransparency = 1;
-            ZIndex = 3;
-            Parent = TabButton;
-        });
+    BackgroundColor3 = Library.AccentColor;
+    BorderSizePixel = 0;
+    Position = UDim2.new(0, 0, 1, 0);
+    Size = UDim2.new(1, 0, 0, 1);
+    BackgroundTransparency = 1;
+    ZIndex = 3;
+    Parent = TabButton;
+});
+
+Library:AddToRegistry(Blocker, {
+    BackgroundColor3 = 'AccentColor';
+});
 
         Library:AddToRegistry(Blocker, {
             BackgroundColor3 = 'MainColor';
