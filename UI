@@ -3069,11 +3069,11 @@ function Library:CreateWindow(...)
    local TitleFadeHolder = Instance.new('Frame')
     TitleFadeHolder.BackgroundTransparency = 1
     TitleFadeHolder.BorderSizePixel = 0
-    TitleFadeHolder.Position = UDim2.new(0, 0, 0, 0)
-    TitleFadeHolder.Size = UDim2.new(1, 0, 0, 25)
+    TitleFadeHolder.Position = UDim2.new(0, 1, 0, 1)  
+    TitleFadeHolder.Size = UDim2.new(1, -2, 0, 25)
     TitleFadeHolder.ClipsDescendants = false
     TitleFadeHolder.ZIndex = 4
-    TitleFadeHolder.Parent = Inner
+    TitleFadeHolder.Parent = Outer 
 
     -- Left fade
     local LeftFade = Instance.new('Frame')
